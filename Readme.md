@@ -36,6 +36,17 @@ sudo make uninstall
 yay -Rns center-align
 ```
 
+# Check
+![image](https://user-images.githubusercontent.com/60490474/232287874-ddf82867-cec6-4c2f-96e2-367ca5f44658.png)
+
+Fun Command to give a try:
+```
+watch -n1 -t "date +%A%n%x%n%X | figlet  | center-align -a"
+```
+![image](https://user-images.githubusercontent.com/60490474/232287938-a7e18d34-4f39-4f0c-bdde-0f30baa920eb.png)
+
+
+
 ## TODO
 
-- [ ] Flags for specific center Type
+- [ ] Flags to specific center Type (vertical or horizontal)
