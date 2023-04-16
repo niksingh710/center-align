@@ -14,6 +14,28 @@ usage:
     command | center -a
 ```
 
+## Installation
+
+```
+sudo make install
+```
+
+### AUR
+```
+yay -S center-algn
+```
+[AUR](https://aur.archlinux.org/packages/center-align)
+
+## Uninstall
+```
+sudo make uninstall
+```
+
+### AUR
+```
+yay -Rns center-align
+```
+
 ## TODO
 
 - [ ] Flags for specific center Type
