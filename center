@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+main() {
+	all=false
+	# ArgumentParser
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-h | --help)
+			help
+			exit 0
+			;;
+		-a | --all)
+			all=true
+			shift
+			;;
+		*)
+			echo "Invalid argument $1"
+			help
+			exit 1
+			;;
+		esac
+	done
+
+	IFS=$'\n'$'\r'
+	content=()
+	while read -r line; do
+		content+=("$line")
+	done
+
+	totalvLen=$(tput lines)
+	totalhLen=$(tput cols)
+	vlen=${#content[@]}
+	$all || {
+		hlen=$(getMaxlen "${content[@]}")
+		left_padding=$(((totalhLen - hlen) / 2))
+	}
+	upper_padding=$(((totalvLen - vlen) / 2))
+
+	yes '' | sed "$upper_padding"q
+	for i in "${content[@]}"; do
+		$all && {
+			hlen="${#i}"
+			left_padding=$(((totalhLen - hlen) / 2))
+		}
+		printf " %.0s" $(seq 1 "$left_padding")
+		printf "%s\n" "$i"
+	done
+	yes '' | sed "$upper_padding"q
+
+}
+getMaxlen() {
+	local max=0
+	for i in "$@"; do
+		if [ ${#i} -gt "$max" ]; then
+			max=${#i}
+		fi
+	done
+	echo "$max"
+}
+
+help() {
+	cat <<EOF
+  This command will take input from pipe (stdout) and will center that data in terminal
+
+flags:
+    -h, --help: show this help
+    -a, --all: will center every line individually (Horizontal center)
+
+usage:
+    command | center
+    command | center -a
+
+EOF
+}
+
+main "$@"
