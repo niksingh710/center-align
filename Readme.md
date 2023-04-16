@@ -10,8 +10,8 @@ flags:
     -a, --all: will center every line individually (Horizontal center)
 
 usage:
-    command | center
-    command | center -a
+    command | center-align
+    command | center-align -a
 ```
 
 ## Installation
