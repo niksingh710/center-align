@@ -4,8 +4,8 @@ say_hello:
 
 install:
 	@echo "copying binary to /usr/local/bin.."
-	cp center /usr/local/bin
+	cp center /usr/local/bin/center-align
 
 uninstall:
 	@echo "Uninstalling ..."
-	rm /usr/local/bin/center
+	rm /usr/local/bin/center-align
