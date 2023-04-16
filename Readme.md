@@ -22,7 +22,7 @@ sudo make install
 
 ### AUR
 ```
-yay -S center-algn
+yay -S center-align
 ```
 [AUR](https://aur.archlinux.org/packages/center-align)
 
