@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# author="Nikhil Sing"
+# email="nik.singh710@gmail.com"
+
 main() {
 	all=false
 	# ArgumentParser
