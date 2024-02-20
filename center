@@ -6,7 +6,7 @@
 main() {
 	all=false
 	# ArgumentParser
-	while [ $# -gt 0 ]; do
+	while (( $# > 0 )); do
 		case "$1" in
 		-h | --help)
 			help
@@ -30,36 +30,33 @@ main() {
 		content+=("$line")
 	done
 
-	totalvLen=$(tput lines)
-	totalhLen=$(tput cols)
-	vlen=${#content[@]}
-	$all || {
-		hlen=$(getMaxlen "${content[@]}")
-		left_padding=$(((totalhLen - hlen) / 2))
-	}
-	upper_padding=$(((totalvLen - vlen) / 2))
-	# if upper padding is negative, sed gets confused
-	[ "$upper_padding" -lt 1 ] && upper_padding=1
-	yes '' 2>/dev/null | sed "$upper_padding"q
-	for i in "${content[@]}"; do
-		$all && {
-			hlen="${#i}"
-			left_padding=$(((totalhLen - hlen) / 2))
-		}
-		printf " %.0s" $(seq 1 "$left_padding")
-		printf "%s\n" "$i"
-	done
-	yes '' 2>/dev/null | sed "$upper_padding"q
+	# Call "cat" to initialize $LINES and $COLUMNS
+	cat /dev/null
+	(( upper_padding = (LINES - ${#content[@]}) / 2 ))
+	(( upper_padding < 1 )) && upper_padding=0
 
+	printf -v upper_padding '%*s' $upper_padding ''
+	printf '%b' "${upper_padding// /\\n}"
+
+	if $all; then
+		for i in "${content[@]}"; do
+			printf "%*s\n" $(((COLUMNS + ${#i}) / 2)) "$i"
+		done
+	else
+		getMaxlen "${content[@]}"
+		printf -v left_padding '%*s' $(((COLUMNS - max) / 2 )) ''
+		printf "$left_padding%s\n" "${content[@]}"
+	fi
+
+	printf '%b' "${upper_padding// /\\n}"
 }
+
 getMaxlen() {
-	local max=0
 	for i in "$@"; do
-		if [ ${#i} -gt "$max" ]; then
+		if (( ${#i} > max )); then
 			max=${#i}
 		fi
 	done
-	echo "$max"
 }
 
 help() {
