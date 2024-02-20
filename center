@@ -35,8 +35,8 @@ main() {
 	(( upper_padding = (LINES - ${#content[@]}) / 2 ))
 	(( upper_padding < 1 )) && upper_padding=0
 
-	printf -v upad '%*s' $upper_padding ''
-	printf '%b' "${upad// /\\n}"
+	printf -v upper_padding '%*s' $upper_padding ''
+	printf '%b' "${upper_padding// /\\n}"
 
 	if $all; then
 		for i in "${content[@]}"; do
@@ -44,11 +44,11 @@ main() {
 		done
 	else
 		getMaxlen "${content[@]}"
-		printf -v lpad '%*s' $(((COLUMNS - max) / 2 )) ''
-		printf "$lpad%s\n" "${content[@]}"
+		printf -v left_padding '%*s' $(((COLUMNS - max) / 2 )) ''
+		printf "$left_padding%s\n" "${content[@]}"
 	fi
 
-	printf '%b' "${upad// /\\n}"
+	printf '%b' "${upper_padding// /\\n}"
 }
 
 getMaxlen() {
